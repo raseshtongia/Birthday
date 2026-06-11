@@ -10,6 +10,18 @@ type WordSearchGameProps = {
 const cellKey = (cell: Cell) => `${cell.row}-${cell.col}`;
 const pathKey = (cells: Cell[]) => cells.map(cellKey).join('|');
 const progressKey = (puzzle: PuzzleConfig) => `word-search-progress:${puzzle.id}`;
+const ANSWER_COLORS = [
+  '#d1495b',
+  '#2a9d8f',
+  '#4f7cac',
+  '#f2c14e',
+  '#8e6c8a',
+  '#e76f51',
+  '#5b8e7d',
+  '#7c6ff0',
+  '#ef476f',
+  '#118ab2',
+];
 
 const getWordFromCells = (grid: string[][], cells: Cell[]) =>
   cells.map(({ row, col }) => grid[row]?.[col] ?? '').join('');
@@ -37,17 +49,27 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
   const [interactionMode, setInteractionMode] = useState<'select' | 'move'>('select');
 
   const generatedPuzzle = useMemo(() => generateWordSearch(puzzle), [puzzle]);
-  const foundCells = useMemo(() => {
-    const keys = new Set<string>();
+  const wordColors = useMemo(() => {
+    const colors = new Map<string, string>();
+
+    generatedPuzzle.placedWords.forEach((word, index) => {
+      colors.set(word.id, ANSWER_COLORS[index % ANSWER_COLORS.length]);
+    });
+
+    return colors;
+  }, [generatedPuzzle.placedWords]);
+  const foundCellColors = useMemo(() => {
+    const colors = new Map<string, string>();
 
     generatedPuzzle.placedWords.forEach((word) => {
       if (foundWordIds.has(word.id)) {
-        word.cells.forEach((cell) => keys.add(cellKey(cell)));
+        const color = wordColors.get(word.id) ?? puzzle.theme?.found ?? '#2a9d8f';
+        word.cells.forEach((cell) => colors.set(cellKey(cell), color));
       }
     });
 
-    return keys;
-  }, [foundWordIds, generatedPuzzle.placedWords]);
+    return colors;
+  }, [foundWordIds, generatedPuzzle.placedWords, puzzle.theme?.found, wordColors]);
 
   const selectionCells = useMemo(() => {
     if (!selectionStart || !selectionEnd) {
@@ -279,15 +301,24 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
                 row.map((letter, colIndex) => {
                   const cell = { row: rowIndex, col: colIndex };
                   const key = cellKey(cell);
-                  const isFound = foundCells.has(key);
+                  const foundColor = foundCellColors.get(key);
+                  const matchedColor = matchedWordIds[0]
+                    ? wordColors.get(matchedWordIds[0])
+                    : undefined;
+                  const cellColor = foundColor ?? matchedColor;
                   const isSelected = selectionCellsSet.has(key);
                   const isMatched = isSelected && matchedWordIds.length > 0;
 
                   return (
                     <button
-                      className={`${styles.cell} ${isFound ? styles.foundCell : ''} ${
+                      className={`${styles.cell} ${foundColor ? styles.foundCell : ''} ${
                         isSelected ? styles.selectedCell : ''
                       } ${isMatched ? styles.matchedCell : ''}`}
+                      style={
+                        cellColor
+                          ? ({ '--word-color': cellColor } as React.CSSProperties)
+                          : undefined
+                      }
                       key={key}
                       type="button"
                       data-row={rowIndex}
@@ -315,7 +346,15 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
               <span className={styles.emptyProgress}>No words found yet</span>
             ) : (
               foundWords.map((word: PlacedWord) => (
-                <span className={`${styles.wordPill} ${styles.wordFound}`} key={word.id}>
+                <span
+                  className={`${styles.wordPill} ${styles.wordFound}`}
+                  key={word.id}
+                  style={
+                    {
+                      '--word-color': wordColors.get(word.id) ?? puzzle.theme?.found ?? '#2a9d8f',
+                    } as React.CSSProperties
+                  }
+                >
                   {word.displayText}
                 </span>
               ))

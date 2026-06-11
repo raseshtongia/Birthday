@@ -5,6 +5,8 @@ import type {
 } from '../games/word-search/types';
 
 const DIRECTIONS: DirectionKey[] = ['E', 'W', 'S', 'N', 'SE', 'SW', 'NE', 'NW'];
+const ACCESS_TOKEN_SALT = 'birthdays-word-search-v1';
+const SUBSTITUTION_ALPHABET = 'Q8W7E6R5T4Y3U2I1O0PASDFGHJKLZXCVBNM9';
 
 const slugify = (value: string) =>
   value
@@ -16,15 +18,30 @@ const slugify = (value: string) =>
 const normalizeWord = (word: string) =>
   word.toUpperCase().replace(/[^A-Z]/g, '');
 
-const hashText = (value: string) => {
+const createSubstitutionCode = (friendName: string) => {
+  const source = `${ACCESS_TOKEN_SALT}:${friendName}`
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '');
   let hash = 2166136261;
 
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
+  for (let index = 0; index < source.length; index += 1) {
+    const char = source[index];
+    const charCode = char.charCodeAt(0);
+    const alphabetIndex =
+      char >= 'A' && char <= 'Z'
+        ? charCode - 65
+        : 26 + Number(char);
+    const substitutedChar = SUBSTITUTION_ALPHABET[alphabetIndex];
+
+    hash ^= substitutedChar.charCodeAt(0) + index;
     hash = Math.imul(hash, 16777619);
   }
 
-  return (hash >>> 0).toString(16).padStart(8, '0');
+  return (hash >>> 0)
+    .toString(36)
+    .toUpperCase()
+    .padStart(6, '0')
+    .slice(-6);
 };
 
 export const recommendGridSize = (words: string[]): PuzzleConfig['size'] => {
@@ -63,7 +80,7 @@ export const recommendGridSize = (words: string[]): PuzzleConfig['size'] => {
 export const createPuzzleFromFriend = (friend: FriendWordList): PuzzleConfig => {
   const id = slugify(friend.friendName);
   const seedInput = `${friend.friendName}:${friend.words.join('|')}`;
-  const token = friend.accessToken ?? `${id}-${hashText(seedInput)}-${hashText(seedInput.split('').reverse().join(''))}`;
+  const token = friend.accessToken ?? `${id}-${createSubstitutionCode(friend.friendName)}`;
 
   return {
     id,

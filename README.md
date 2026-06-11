@@ -146,6 +146,29 @@ Use these only when you want to override the defaults:
 }
 ```
 
+By default, each friend gets a stable readable token in this format:
+
+```text
+friend-name-A1B2C3
+```
+
+The 6-character alphanumeric code is generated from the friend name only using
+a deterministic substitution/hash function. Adding or removing words will not
+change the URL. Renaming the friend will change the URL.
+
+Use an explicit `accessToken` only when you want to override the generated URL:
+
+```ts
+{
+  friendName: 'Friend Name',
+  accessToken: 'friend-name-A1B2C3',
+  words: ['FIRST WORD', 'SECOND WORD'],
+}
+```
+
+If two friends ever generate the same token, the build will fail and ask you to
+add a custom `accessToken` for one of them.
+
 ### Grid Size Rule Of Thumb
 
 If you do not provide `gridSize`, the app chooses one automatically.
@@ -181,6 +204,9 @@ http://127.0.0.1:5173/?friend=make-this-long-random-and-hard-to-guess
 This is useful for Phase 1, but it is not real security. Since this is a static
 frontend app, puzzle data is still included in the deployed JavaScript bundle.
 For true access control, use login plus a backend/database in a later phase.
+
+Do not put anything sensitive in Phase 1 puzzle data. The token is meant to make
+links hard to guess, not to hide data from someone inspecting the site bundle.
 
 ### Progress
 

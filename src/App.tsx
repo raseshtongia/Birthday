@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import styles from './App.module.css';
+import AdminAnswers from './admin/AdminAnswers';
 import { puzzles } from './data/puzzles';
 import WordSearchGame from './games/word-search/WordSearchGame';
 
@@ -8,7 +9,20 @@ const getTokenFromUrl = () => {
   return params.get('friend');
 };
 
+const isAdminUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('admin') === '1';
+};
+
 function App() {
+  if (isAdminUrl()) {
+    return <AdminAnswers puzzles={puzzles} />;
+  }
+
+  return <FriendGameApp />;
+}
+
+function FriendGameApp() {
   const [selectedPuzzleId, setSelectedPuzzleId] = useState(() => {
     const token = getTokenFromUrl();
     return puzzles.find((puzzle) => puzzle.accessToken === token)?.id ?? puzzles[0].id;

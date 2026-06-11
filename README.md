@@ -245,6 +245,46 @@ The app does not show the full list of words. It shows only:
 
 Correct words remain highlighted on the board.
 
+## Admin Answer Key
+
+Open the admin answer key with:
+
+```text
+https://YOUR_DOMAIN/?admin=1
+```
+
+For local testing:
+
+```text
+http://127.0.0.1:5173/?admin=1
+```
+
+Create `.env` for local admin access:
+
+```bash
+cp .env.example .env
+```
+
+Then edit:
+
+```text
+VITE_ADMIN_PASSCODE=your-passcode
+```
+
+For GitHub Pages, add a repository secret named `VITE_ADMIN_PASSCODE`:
+
+1. Open the GitHub repo.
+2. Go to `Settings` -> `Secrets and variables` -> `Actions`.
+3. Create a new repository secret named `VITE_ADMIN_PASSCODE`.
+4. Push or rerun the deploy workflow.
+
+The admin page shows one friend's solved grid at a time. Use the dropdown to
+switch between friends.
+
+This admin gate is only for convenience. Vite embeds `VITE_` variables into the
+browser bundle at build time, and the answer data is still part of the static
+app. Use a backend for real authentication.
+
 ## Project Structure
 
 ```text

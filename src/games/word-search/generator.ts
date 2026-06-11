@@ -83,14 +83,14 @@ const canPlaceWord = (grid: string[][], word: string, cells: Cell[]) =>
   });
 
 const getPlacementScore = (grid: string[][], word: string, cells: Cell[]) =>
-  cells.reduce((score, { row, col }, index) => {
+  cells.reduce((overlapCount, { row, col }, index) => {
     const existingLetter = grid[row]?.[col];
 
     if (existingLetter === word[index]) {
-      return score + (index === 0 ? 6 : 3);
+      return overlapCount + 1;
     }
 
-    return score;
+    return overlapCount;
   }, 0);
 
 const validatePuzzle = (puzzle: PuzzleConfig) => {
@@ -172,7 +172,7 @@ export const generateWordSearch = (puzzle: PuzzleConfig): GeneratedPuzzle => {
       }
     }
 
-    const placement = candidates.sort((a, b) => b.score - a.score)[0];
+    const placement = candidates.sort((a, b) => a.score - b.score)[0];
 
     if (!placement) {
       throw new Error(

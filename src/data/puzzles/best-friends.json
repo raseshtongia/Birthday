@@ -1,0 +1,29 @@
+{
+  "id": "best-friends",
+  "accessToken": "demo-best-friends-9f47ac12",
+  "title": "Best Friend Starter",
+  "friendName": "Demo Friend",
+  "message": "A warm-up puzzle for shared jokes, memories, and favorite things.",
+  "size": 20,
+  "seed": "best-friends-starter",
+  "allowedDirections": ["E", "S", "SE", "NE"],
+  "theme": {
+    "accent": "#d1495b",
+    "found": "#2a9d8f",
+    "selection": "#f4a261"
+  },
+  "words": [
+    { "text": "LAUGHTER", "directions": ["E"] },
+    { "text": "MEMORIES", "directions": ["S"] },
+    { "text": "MOVIENIGHT", "directions": ["SE"] },
+    { "text": "PLAYLIST", "directions": ["NE"] },
+    { "text": "CAKE" },
+    { "text": "SURPRISE" },
+    { "text": "PHOTOS" },
+    { "text": "INSIDEJOKE" },
+    { "text": "DANCE" },
+    { "text": "CHOCOLATE" },
+    { "text": "ADVENTURE" },
+    { "text": "FRIENDSHIP" }
+  ]
+}

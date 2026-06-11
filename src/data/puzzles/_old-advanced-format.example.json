@@ -1,0 +1,21 @@
+{
+  "note": "This advanced format is no longer needed for normal use. Prefer src/data/friendWordLists.ts. Keep this only as a reference if you later want per-word directions or custom tokens.",
+  "id": "friend-name-birthday",
+  "accessToken": "replace-with-a-long-random-secret-like-4f8c9b2a7e6d41a0",
+  "title": "Friend Name Birthday Hunt",
+  "friendName": "Friend Name",
+  "message": "A personal message shown at the top of the game.",
+  "size": 25,
+  "seed": "friend-name-unique-seed",
+  "allowedDirections": ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+  "theme": {
+    "accent": "#d1495b",
+    "found": "#2a9d8f",
+    "selection": "#f4a261"
+  },
+  "words": [
+    { "text": "FIRSTWORD", "directions": ["E"] },
+    { "text": "SECONDWORD", "directions": ["SE", "S"] },
+    { "text": "THIRDWORD" }
+  ]
+}

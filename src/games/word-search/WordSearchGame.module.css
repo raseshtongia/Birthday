@@ -1,0 +1,294 @@
+.shell {
+  --accent-color: #d1495b;
+  --found-color: #2a9d8f;
+  --selection-color: #f4a261;
+  --cell-size: 32px;
+  border: 1px solid #d9e0eb;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
+  padding: 20px;
+}
+
+.gameHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 16px;
+}
+
+.gameHeader h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 26px;
+  letter-spacing: 0;
+}
+
+.gameHeader p {
+  max-width: 720px;
+  margin: 8px 0 0;
+  color: #5d687c;
+  line-height: 1.5;
+}
+
+.friendName {
+  margin-top: 6px;
+  color: var(--accent-color);
+  font-weight: 800;
+}
+
+.progressPanel {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  width: 220px;
+  color: #465169;
+  font-weight: 800;
+}
+
+.progressTrack {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7ebf2;
+}
+
+.progressTrack div {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--found-color);
+  transition: width 180ms ease;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.segmentedControl,
+.zoomControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.segmentedControl {
+  border: 1px solid #d6deea;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 4px;
+}
+
+.segmentedControl button,
+.zoomControls button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #465169;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0 12px;
+}
+
+.segmentedControl .activeSegment {
+  background: var(--accent-color);
+  color: #ffffff;
+}
+
+.zoomControls {
+  color: #465169;
+  font-weight: 800;
+}
+
+.zoomControls button,
+.resetProgressButton {
+  border: 1px solid #d6deea;
+  background: #ffffff;
+}
+
+.zoomControls button:hover,
+.resetProgressButton:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.resetProgressButton {
+  min-height: 36px;
+  border-radius: 7px;
+  color: #465169;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 0 12px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: start;
+}
+
+.boardViewport {
+  width: 100%;
+  max-height: min(72vh, 900px);
+  overflow: auto;
+  border: 1px solid #d6deea;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(79, 124, 172, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(79, 124, 172, 0.06) 1px, transparent 1px),
+    #f8fafc;
+  padding: 14px;
+  overscroll-behavior: contain;
+}
+
+.moveMode {
+  cursor: grab;
+}
+
+.moveMode:active {
+  cursor: grabbing;
+}
+
+.boardScaler {
+  width: max-content;
+  min-width: calc(var(--grid-size) * var(--cell-size) * var(--zoom));
+  min-height: calc(var(--grid-size) * var(--cell-size) * var(--zoom));
+}
+
+.board {
+  display: grid;
+  width: max-content;
+  transform-origin: top left;
+  user-select: none;
+}
+
+.cell {
+  display: grid;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  place-items: center;
+  border: 1px solid #dbe2ee;
+  background: #ffffff;
+  color: #1f2937;
+  cursor: crosshair;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0;
+  touch-action: none;
+}
+
+.cell:hover {
+  border-color: var(--accent-color);
+}
+
+.cell:disabled {
+  cursor: grab;
+  opacity: 1;
+}
+
+.selectedCell {
+  background: color-mix(in srgb, var(--selection-color) 45%, #ffffff);
+  border-color: var(--selection-color);
+}
+
+.matchedCell,
+.foundCell {
+  background: color-mix(in srgb, var(--found-color) 30%, #ffffff);
+  border-color: var(--found-color);
+  color: #0f3d36;
+}
+
+.matchedCell {
+  box-shadow: inset 0 0 0 2px var(--found-color);
+}
+
+.progressWordsPanel {
+  border: 1px solid #d9e0eb;
+  border-radius: 8px;
+  background: #fbfcff;
+  padding: 16px;
+}
+
+.progressWordsPanel h3 {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: 18px;
+}
+
+.hiddenWordsNote {
+  margin: 0 0 12px;
+  color: #68748a;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.wordsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wordPill {
+  border: 1px solid #d6deea;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #3c465c;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 10px;
+}
+
+.wordFound {
+  border-color: color-mix(in srgb, var(--found-color) 65%, #ffffff);
+  background: color-mix(in srgb, var(--found-color) 16%, #ffffff);
+  color: #0f3d36;
+  text-decoration: line-through;
+}
+
+.emptyProgress {
+  color: #68748a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .progressWordsPanel {
+    order: -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    --cell-size: 30px;
+    padding: 14px;
+  }
+
+  .gameHeader,
+  .controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .progressPanel {
+    width: 100%;
+  }
+
+  .zoomControls {
+    flex-wrap: wrap;
+  }
+
+  .boardViewport {
+    max-height: 68vh;
+    padding: 10px;
+  }
+}

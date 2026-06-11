@@ -1,0 +1,37 @@
+{
+  "id": "mega-memories",
+  "accessToken": "demo-mega-memories-61b8e302",
+  "title": "Mega Memories 50",
+  "friendName": "Mega Demo",
+  "message": "A large-grid sample showing how phone-friendly pan and zoom works.",
+  "size": 50,
+  "seed": "mega-memories-50",
+  "allowedDirections": ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+  "theme": {
+    "accent": "#4f7cac",
+    "found": "#5b8e7d",
+    "selection": "#f2c14e"
+  },
+  "words": [
+    { "text": "BIRTHDAY", "directions": ["E"] },
+    { "text": "CONFETTI", "directions": ["W"] },
+    { "text": "CANDLES", "directions": ["S"] },
+    { "text": "WISHES", "directions": ["N"] },
+    { "text": "BALLOONS", "directions": ["SE"] },
+    { "text": "PRESENTS", "directions": ["SW"] },
+    { "text": "SUNSHINE", "directions": ["NE"] },
+    { "text": "MIDNIGHT", "directions": ["NW"] },
+    { "text": "CAFETERIA" },
+    { "text": "ROADTRIP" },
+    { "text": "KARAOKE" },
+    { "text": "FAVORITESONG" },
+    { "text": "RAINYDAYS" },
+    { "text": "GROUPCHAT" },
+    { "text": "STORYTIME" },
+    { "text": "TREASURE" },
+    { "text": "HAPPINESS" },
+    { "text": "CELEBRATE" },
+    { "text": "NOTEBOOK" },
+    { "text": "SNACKS" }
+  ]
+}

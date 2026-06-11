@@ -79,7 +79,10 @@ export const recommendGridSize = (words: string[]): PuzzleConfig['size'] => {
 
 export const createPuzzleFromFriend = (friend: FriendWordList): PuzzleConfig => {
   const id = slugify(friend.friendName);
-  const seedInput = `${friend.friendName}:${friend.words.join('|')}`;
+  const words = friend.words
+    .map((word) => word.trim())
+    .filter(Boolean);
+  const seedInput = `${friend.friendName}:${words.join('|')}`;
   const token = friend.accessToken ?? `${id}-${createSubstitutionCode(friend.friendName)}`;
 
   return {
@@ -88,10 +91,10 @@ export const createPuzzleFromFriend = (friend: FriendWordList): PuzzleConfig => 
     title: `${friend.friendName}'s Birthday Hunt`,
     friendName: friend.friendName,
     message: friend.message,
-    size: friend.gridSize ?? recommendGridSize(friend.words),
+    size: friend.gridSize ?? recommendGridSize(words),
     seed: seedInput,
     allowedDirections: DIRECTIONS,
     theme: friend.theme,
-    words: friend.words.map((word) => ({ text: word })),
+    words: words.map((word) => ({ text: word })),
   };
 };

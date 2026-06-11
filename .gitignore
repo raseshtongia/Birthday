@@ -20,6 +20,9 @@ node_modules/
 dist/
 build/
 
+# Local generated friend links
+FRIEND_LINKS.local.md
+
 # Python
 __pycache__/
 *.pyc

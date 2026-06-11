@@ -5,7 +5,7 @@ export const friendWordLists: FriendWordList[] = [
     friendName: 'Nisha Shakya',
     message: 'A trip down the memory lane',
     words: [
-      'SHEOPUR','TE-AMO','GEORGE','IET','FUFU'
+      'SHEOPUR','TEAMO','GEORGE','IETDAVV','FUFU','SINGER','AIRLIFT','GARBANIGHT','ROTIKEPOHE','GANESHVATIKA','BHAVARKUAN','CHAI','JAIL','LOKI'
     ],
   }
 ];

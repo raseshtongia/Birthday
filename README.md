@@ -208,6 +208,20 @@ For true access control, use login plus a backend/database in a later phase.
 Do not put anything sensitive in Phase 1 puzzle data. The token is meant to make
 links hard to guess, not to hide data from someone inspecting the site bundle.
 
+Generate a local list of friend links:
+
+```bash
+npm run links
+```
+
+This creates `FRIEND_LINKS.local.md`, which is ignored by git.
+
+If your deployed URL changes, pass it explicitly:
+
+```bash
+npm run links -- https://your-domain.example/
+```
+
 ### Progress
 
 Progress is saved in the player's browser with `localStorage`.

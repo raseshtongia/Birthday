@@ -3,6 +3,8 @@ import styles from './App.module.css';
 import AdminAnswers from './admin/AdminAnswers';
 import { puzzles } from './data/puzzles';
 import WordSearchGame from './games/word-search/WordSearchGame';
+import ThemeToggle from './theme/ThemeToggle';
+import { useTheme } from './theme/useTheme';
 
 const getTokenFromUrl = () => {
   const params = new URLSearchParams(window.location.search);
@@ -15,14 +17,18 @@ const isAdminUrl = () => {
 };
 
 function App() {
+  const theme = useTheme();
+
   if (isAdminUrl()) {
-    return <AdminAnswers puzzles={puzzles} />;
+    return <AdminAnswers puzzles={puzzles} theme={theme} />;
   }
 
-  return <FriendGameApp />;
+  return <FriendGameApp theme={theme} />;
 }
 
-function FriendGameApp() {
+type ThemeControls = ReturnType<typeof useTheme>;
+
+function FriendGameApp({ theme }: { theme: ThemeControls }) {
   const [selectedPuzzleId, setSelectedPuzzleId] = useState(() => {
     const token = getTokenFromUrl();
     return puzzles.find((puzzle) => puzzle.accessToken === token)?.id ?? puzzles[0].id;
@@ -67,21 +73,25 @@ function FriendGameApp() {
           </p>
         </div>
 
-        {!isFriendLink && (
-          <label className={styles.picker}>
-            <span>Puzzle</span>
-            <select
-              value={selectedPuzzleId}
-              onChange={(event) => setSelectedPuzzleId(event.target.value)}
-            >
-              {puzzles.map((puzzle) => (
-                <option key={puzzle.id} value={puzzle.id}>
-                  {puzzle.title}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
+        <div className={styles.headerActions}>
+          <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
+
+          {!isFriendLink && (
+            <label className={styles.picker}>
+              <span>Puzzle</span>
+              <select
+                value={selectedPuzzleId}
+                onChange={(event) => setSelectedPuzzleId(event.target.value)}
+              >
+                {puzzles.map((puzzle) => (
+                  <option key={puzzle.id} value={puzzle.id}>
+                    {puzzle.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+        </div>
       </header>
 
       <WordSearchGame key={visiblePuzzle.id} puzzle={visiblePuzzle} />

@@ -3,10 +3,10 @@
   --found-color: #2a9d8f;
   --selection-color: #f4a261;
   --cell-size: 32px;
-  border: 1px solid #d9e0eb;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
   padding: 20px;
 }
 
@@ -19,7 +19,7 @@
 
 .gameHeader h2 {
   margin: 0;
-  color: #172033;
+  color: var(--color-text);
   font-size: 26px;
   letter-spacing: 0;
 }
@@ -27,7 +27,7 @@
 .gameHeader p {
   max-width: 720px;
   margin: 8px 0 0;
-  color: #5d687c;
+  color: var(--color-text-muted);
   line-height: 1.5;
 }
 
@@ -42,7 +42,7 @@
   align-content: center;
   gap: 8px;
   width: 220px;
-  color: #465169;
+  color: var(--color-text-muted);
   font-weight: 800;
 }
 
@@ -50,7 +50,7 @@
   height: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e7ebf2;
+  background: var(--color-chip);
 }
 
 .progressTrack div {
@@ -68,6 +68,26 @@
   margin-bottom: 16px;
 }
 
+.completeBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, var(--found-color) 60%, var(--color-border));
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--found-color) 14%, var(--color-surface));
+  color: var(--color-text);
+  margin-bottom: 16px;
+  padding: 12px 14px;
+}
+
+.completeBanner strong {
+  color: var(--found-color);
+}
+
+.completeBanner span {
+  color: var(--color-text-muted);
+}
+
 .segmentedControl,
 .zoomControls {
   display: flex;
@@ -76,9 +96,9 @@
 }
 
 .segmentedControl {
-  border: 1px solid #d6deea;
-  border-radius: 8px;
-  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
   padding: 4px;
 }
 
@@ -88,7 +108,7 @@
   border: 0;
   border-radius: 7px;
   background: transparent;
-  color: #465169;
+  color: var(--color-text-muted);
   cursor: pointer;
   font-weight: 800;
   padding: 0 12px;
@@ -96,18 +116,18 @@
 
 .segmentedControl .activeSegment {
   background: var(--accent-color);
-  color: #ffffff;
+  color: var(--color-primary-contrast);
 }
 
 .zoomControls {
-  color: #465169;
+  color: var(--color-text-muted);
   font-weight: 800;
 }
 
 .zoomControls button,
 .resetProgressButton {
-  border: 1px solid #d6deea;
-  background: #ffffff;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .zoomControls button:hover,
@@ -119,7 +139,7 @@
 .resetProgressButton {
   min-height: 36px;
   border-radius: 7px;
-  color: #465169;
+  color: var(--color-text-muted);
   cursor: pointer;
   font-weight: 800;
   padding: 0 12px;
@@ -136,12 +156,12 @@
   width: 100%;
   max-height: min(72vh, 900px);
   overflow: auto;
-  border: 1px solid #d6deea;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
   background:
-    linear-gradient(90deg, rgba(79, 124, 172, 0.06) 1px, transparent 1px),
-    linear-gradient(rgba(79, 124, 172, 0.06) 1px, transparent 1px),
-    #f8fafc;
+    linear-gradient(90deg, color-mix(in srgb, var(--color-border) 35%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--color-border) 35%, transparent) 1px, transparent 1px),
+    var(--color-grid-bg);
   padding: 14px;
   overscroll-behavior: contain;
 }
@@ -172,9 +192,9 @@
   width: var(--cell-size);
   height: var(--cell-size);
   place-items: center;
-  border: 1px solid #dbe2ee;
-  background: #ffffff;
-  color: #1f2937;
+  border: 1px solid var(--color-grid-line);
+  background: var(--color-cell);
+  color: var(--color-cell-text);
   cursor: crosshair;
   font-size: 15px;
   font-weight: 900;
@@ -193,15 +213,15 @@
 }
 
 .selectedCell {
-  background: color-mix(in srgb, var(--selection-color) 45%, #ffffff);
+  background: color-mix(in srgb, var(--selection-color) 45%, var(--color-cell));
   border-color: var(--selection-color);
 }
 
 .matchedCell,
 .foundCell {
-  background: color-mix(in srgb, var(--word-color, var(--found-color)) 30%, #ffffff);
+  background: color-mix(in srgb, var(--word-color, var(--found-color)) 30%, var(--color-cell));
   border-color: var(--word-color, var(--found-color));
-  color: #0f3d36;
+  color: var(--color-found-cell-text, #0f3d36);
 }
 
 .matchedCell {
@@ -209,21 +229,21 @@
 }
 
 .progressWordsPanel {
-  border: 1px solid #d9e0eb;
-  border-radius: 8px;
-  background: #fbfcff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-soft);
   padding: 16px;
 }
 
 .progressWordsPanel h3 {
   margin: 0 0 12px;
-  color: #172033;
+  color: var(--color-text);
   font-size: 18px;
 }
 
 .hiddenWordsNote {
   margin: 0 0 12px;
-  color: #68748a;
+  color: var(--color-text-soft);
   font-size: 14px;
   line-height: 1.45;
 }
@@ -235,24 +255,24 @@
 }
 
 .wordPill {
-  border: 1px solid #d6deea;
+  border: 1px solid var(--color-border);
   border-radius: 999px;
-  background: #ffffff;
-  color: #3c465c;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
   font-size: 13px;
   font-weight: 800;
   padding: 7px 10px;
 }
 
 .wordFound {
-  border-color: color-mix(in srgb, var(--word-color, var(--found-color)) 65%, #ffffff);
-  background: color-mix(in srgb, var(--word-color, var(--found-color)) 16%, #ffffff);
-  color: #172033;
+  border-color: color-mix(in srgb, var(--word-color, var(--found-color)) 65%, var(--color-surface));
+  background: color-mix(in srgb, var(--word-color, var(--found-color)) 16%, var(--color-surface));
+  color: var(--color-text);
   text-decoration: line-through;
 }
 
 .emptyProgress {
-  color: #68748a;
+  color: var(--color-text-soft);
   font-size: 14px;
   font-weight: 700;
 }
@@ -270,13 +290,36 @@
 @media (max-width: 720px) {
   .shell {
     --cell-size: 30px;
-    padding: 14px;
+    padding: 12px;
   }
 
   .gameHeader,
-  .controls {
+  .controls,
+  .completeBanner {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .controls {
+    position: sticky;
+    top: 8px;
+    z-index: 2;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    box-shadow: var(--shadow-soft);
+    padding: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .segmentedControl,
+  .zoomControls {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .segmentedControl button {
+    flex: 1;
   }
 
   .progressPanel {
@@ -288,7 +331,7 @@
   }
 
   .boardViewport {
-    max-height: 68vh;
-    padding: 10px;
+    max-height: 62vh;
+    padding: 8px;
   }
 }

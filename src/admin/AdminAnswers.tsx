@@ -2,9 +2,12 @@ import { FormEvent, useMemo, useState } from 'react';
 import styles from './AdminAnswers.module.css';
 import { generateWordSearch } from '../games/word-search/generator';
 import type { Cell, PuzzleConfig } from '../games/word-search/types';
+import ThemeToggle from '../theme/ThemeToggle';
+import type { useTheme } from '../theme/useTheme';
 
 type AdminAnswersProps = {
   puzzles: PuzzleConfig[];
+  theme: ReturnType<typeof useTheme>;
 };
 
 const ADMIN_SESSION_KEY = 'birthday-word-search-admin';
@@ -31,7 +34,7 @@ const ANSWER_COLORS = [
   '#118ab2',
 ];
 
-function AdminAnswers({ puzzles }: AdminAnswersProps) {
+function AdminAnswers({ puzzles, theme }: AdminAnswersProps) {
   const [isUnlocked, setIsUnlocked] = useState(
     () => window.sessionStorage.getItem(ADMIN_SESSION_KEY) === 'unlocked',
   );
@@ -87,6 +90,9 @@ function AdminAnswers({ puzzles }: AdminAnswersProps) {
   if (!isUnlocked) {
     return (
       <main className={styles.adminPage}>
+        <div className={styles.loginTheme}>
+          <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
+        </div>
         <section className={styles.loginPanel}>
           <p className={styles.eyebrow}>Admin</p>
           <h1>Answer Key</h1>
@@ -121,9 +127,12 @@ function AdminAnswers({ puzzles }: AdminAnswersProps) {
           <h1>Answer Key</h1>
           <p>Select one friend at a time and view the solved word-search grid.</p>
         </div>
-        <button type="button" onClick={logout}>
-          Lock
-        </button>
+        <div className={styles.headerActions}>
+          <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
+          <button type="button" onClick={logout}>
+            Lock
+          </button>
+        </div>
       </header>
 
       {selectedPuzzleAnswer && (

@@ -110,6 +110,7 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
   const foundCount = foundWordIds.size;
   const totalWords = generatedPuzzle.placedWords.length;
   const progress = Math.round((foundCount / totalWords) * 100);
+  const isComplete = foundCount === totalWords;
   const foundWords = useMemo(
     () =>
       generatedPuzzle.placedWords
@@ -235,6 +236,13 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
           </div>
         </div>
       </div>
+
+      {isComplete && (
+        <div className={styles.completeBanner}>
+          <strong>All words found.</strong>
+          <span>Nicely done. This puzzle is complete.</span>
+        </div>
+      )}
 
       <div className={styles.controls}>
         <div className={styles.segmentedControl} aria-label="Board interaction mode">

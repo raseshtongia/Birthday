@@ -14,7 +14,7 @@
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #d1495b;
+  color: var(--color-primary);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0;
@@ -23,7 +23,7 @@
 
 h1 {
   margin: 0;
-  color: #172033;
+  color: var(--color-text);
   font-size: clamp(30px, 5vw, 56px);
   line-height: 1;
   letter-spacing: 0;
@@ -32,34 +32,40 @@ h1 {
 .subtitle {
   max-width: 640px;
   margin: 12px 0 0;
-  color: #566179;
+  color: var(--color-text-muted);
   font-size: 17px;
   line-height: 1.5;
+}
+
+.headerActions {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
 }
 
 .picker {
   display: grid;
   gap: 8px;
   min-width: 260px;
-  color: #465169;
+  color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 700;
 }
 
 .picker select {
   width: 100%;
-  border: 1px solid #ccd4e1;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #172033;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
   padding: 11px 12px;
 }
 
 .notFound {
-  border: 1px solid #d9e0eb;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
   padding: 28px;
 }
 
@@ -71,6 +77,10 @@ h1 {
   .header {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .headerActions {
+    justify-items: stretch;
   }
 
   .picker {

@@ -21,5 +21,25 @@ export const friendWordLists: FriendWordList[] = [
     words: [
       'MIRROR', 'NONOGRAM', 'BURGERFARM', 'ASSIGNMENTREDO', 'UNDERWEAR ', 'PRAGYA', 'KHATWANI', 'YASHIKA', 'SPICY', 'GRIFFINDOR', 'NEVER AGREES', 'SATGURU', 'SOLODATE', 'COFFEE', 'CAKE', 'DOLLY', 'DSA ', 'STRIVER ', 'QUANTIPHI', 'MUMBAI', 'MAMALOCA', 'OYEPAPPE', 'PROMISE', 'TWERK', 'MAKEDATE', 'HINTERLAND', 'THREESOME', 'NSFW', 'KUMARI', 'TMI', 'GROWADITI', 'HINKARGIRI', 'BLANKSPACE'
     ],
+  },
+  {
+    friendName: 'Cousins',
+    message: 'Can you find us all?',
+    gridSize: 12,
+    words: [
+      'Rishabh', 'Rasesh', 'Nitish', 'Khwahish', 'Puru', 'Darshit', 'Dravya', 'Kavya', 'Manali', 'Avani', 'Aashi', 'Avadhi', 'Isha', 'Chahat', 'Ritisha', 'Swasti', 'Kayna', 'Pari', 'Pihu'
+    ],
+  },
+  {
+    friendName: 'CSB',
+    pageEyebrow: 'CSB rocks',
+    pageTitle: 'CSB Word Search',
+    pageSubtitle: 'Find the hidden first names from the CSB batch.',
+    puzzleTitle: 'CSB Name Hunt',
+    message: 'Can you find us all?',
+    gridSize: 35,
+    words: [
+      'Aarushi', 'Abhishek', 'Aditi', 'Aditya', 'Aishwarya', 'Akanksha', 'Akshat', 'Alisha', 'Aman', 'Ankit', 'Anuj', 'Arifa', 'Ayush', 'Chirag', 'Deepak', 'Deepansh', 'Devyani', 'Divyanshi', 'Garvit', 'Gladiolus', 'Himanshi', 'Himanshu', 'Isha', 'Jayesh', 'Kamal', 'Kavish', 'Khushboo', 'Mansi', 'Mayur', 'Mridul', 'Mridula', 'Neelabh', 'Neetu', 'Neha', 'Nikhil', 'Nilesh', 'Nimish', 'Nisha', 'Pratayusha', 'Prateek', 'Priya', 'Punit', 'Punya', 'Rajat', 'Rasesh', 'Rini', 'Rishabh', 'Rishi', 'Rushda', 'Sachin', 'Sameeksha', 'Shashank', 'Shivam', 'Shivani', 'Shruti', 'Shubham', 'Simmi', 'Sushant', 'Taikhoom', 'Tanveer', 'Umang', 'Unnati', 'Vijay', 'Vinod', 'Vishal', 'Yash'
+    ],
   }
 ];

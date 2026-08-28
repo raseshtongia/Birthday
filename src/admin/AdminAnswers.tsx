@@ -1,6 +1,12 @@
 import { FormEvent, useMemo, useState } from 'react';
 import styles from './AdminAnswers.module.css';
 import { generateWordSearch } from '../games/word-search/generator';
+import {
+  DEFAULT_GRID_CODE,
+  getGridCodeFromUrl,
+  getPuzzleGridVariant,
+  normalizeGridCode,
+} from '../games/word-search/gridVariant';
 import type { Cell, PuzzleConfig } from '../games/word-search/types';
 import ThemeToggle from '../theme/ThemeToggle';
 import type { useTheme } from '../theme/useTheme';
@@ -15,9 +21,21 @@ const ADMIN_SESSION_KEY = 'birthday-word-search-admin';
 const getConfiguredPasscode = () =>
   import.meta.env.VITE_ADMIN_PASSCODE;
 
-const getFriendUrl = (token: string) => {
+const getFriendUrl = (token: string, gridCode: string) => {
   const baseUrl = `${window.location.origin}${window.location.pathname}`;
-  return `${baseUrl}?friend=${encodeURIComponent(token)}`;
+  const params = new URLSearchParams({ friend: token });
+  const normalizedGridCode = normalizeGridCode(gridCode);
+
+  if (normalizedGridCode !== DEFAULT_GRID_CODE) {
+    params.set('grid', normalizedGridCode);
+  }
+
+  return `${baseUrl}?${params.toString()}`;
+};
+
+const getFriendTokenFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('friend');
 };
 
 const cellKey = (cell: Cell) => `${cell.row}-${cell.col}`;
@@ -40,18 +58,26 @@ function AdminAnswers({ puzzles, theme }: AdminAnswersProps) {
   );
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
-  const [selectedPuzzleId, setSelectedPuzzleId] = useState(puzzles[0]?.id ?? '');
+  const [selectedPuzzleId, setSelectedPuzzleId] = useState(() => {
+    const friendToken = getFriendTokenFromUrl();
+    return puzzles.find((puzzle) => puzzle.accessToken === friendToken)?.id ?? '';
+  });
+  const [gridCode, setGridCode] = useState(getGridCodeFromUrl);
 
   const puzzleAnswers = useMemo(
     () =>
-      puzzles.map((puzzle) => ({
-        puzzle,
-        generatedPuzzle: generateWordSearch(puzzle),
-      })),
-    [puzzles],
+      puzzles.map((puzzle) => {
+        const puzzleGridVariant = getPuzzleGridVariant(puzzle, gridCode);
+
+        return {
+          puzzle,
+          generatedPuzzle: generateWordSearch(puzzleGridVariant),
+        };
+      }),
+    [gridCode, puzzles],
   );
   const selectedPuzzleAnswer =
-    puzzleAnswers.find(({ puzzle }) => puzzle.id === selectedPuzzleId) ?? puzzleAnswers[0];
+    puzzleAnswers.find(({ puzzle }) => puzzle.id === selectedPuzzleId);
   const solvedCellColors = useMemo(() => {
     const colors = new Map<string, string>();
 
@@ -135,28 +161,52 @@ function AdminAnswers({ puzzles, theme }: AdminAnswersProps) {
         </div>
       </header>
 
-      {selectedPuzzleAnswer && (
-        <section className={styles.puzzlePanel}>
-          <div className={styles.puzzleToolbar}>
-            <label>
-              <span>Friend puzzle</span>
-              <select
-                value={selectedPuzzleAnswer.puzzle.id}
-                onChange={(event) => setSelectedPuzzleId(event.target.value)}
-              >
-                {puzzleAnswers.map(({ puzzle }) => (
-                  <option key={puzzle.id} value={puzzle.id}>
-                    {puzzle.friendName ?? puzzle.title}
-                  </option>
-                ))}
-              </select>
-            </label>
+      <section className={styles.puzzlePanel}>
+        <div className={styles.puzzleToolbar}>
+          <label>
+            <span>Friend puzzle</span>
+            <select
+              value={selectedPuzzleId}
+              onChange={(event) => setSelectedPuzzleId(event.target.value)}
+            >
+              <option value="">Select a friend puzzle</option>
+              {puzzleAnswers.map(({ puzzle }) => (
+                <option key={puzzle.id} value={puzzle.id}>
+                  {puzzle.friendName ?? puzzle.title}
+                </option>
+              ))}
+            </select>
+          </label>
 
-            <a href={getFriendUrl(selectedPuzzleAnswer.puzzle.accessToken)}>
+          <label className={styles.gridCodeField}>
+            <span>Grid code</span>
+            <input
+              value={gridCode}
+              onChange={(event) => setGridCode(event.target.value.toUpperCase())}
+            />
+          </label>
+
+          {selectedPuzzleAnswer ? (
+            <a href={getFriendUrl(selectedPuzzleAnswer.puzzle.accessToken, gridCode)}>
               Open friend link
             </a>
-          </div>
+          ) : (
+            <span className={styles.disabledAction}>Open friend link</span>
+          )}
+        </div>
 
+        {!selectedPuzzleAnswer && (
+          <div className={styles.emptyAdminState}>
+            <h2>No puzzle selected</h2>
+            <p>
+              Choose a friend puzzle from the dropdown to view its solved grid.
+              No answer key is shown by default.
+            </p>
+          </div>
+        )}
+
+        {selectedPuzzleAnswer && (
+          <>
           <div className={styles.puzzleMeta}>
             <div>
               <span>Grid</span>
@@ -167,6 +217,10 @@ function AdminAnswers({ puzzles, theme }: AdminAnswersProps) {
             <div>
               <span>Words</span>
               <strong>{selectedPuzzleAnswer.generatedPuzzle.placedWords.length}</strong>
+            </div>
+            <div>
+              <span>Grid Code</span>
+              <code>{normalizeGridCode(gridCode)}</code>
             </div>
             <div>
               <span>Token</span>
@@ -230,8 +284,9 @@ function AdminAnswers({ puzzles, theme }: AdminAnswersProps) {
               </div>
             </aside>
           </div>
-        </section>
-      )}
+          </>
+        )}
+      </section>
     </main>
   );
 }

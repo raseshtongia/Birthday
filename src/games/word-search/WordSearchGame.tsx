@@ -1,6 +1,17 @@
 import { PointerEvent, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './WordSearchGame.module.css';
 import { generateWordSearch, getStraightLineCells } from './generator';
+import {
+  DEFAULT_GRID_CODE,
+  createGridCode,
+  getGridCodeFromUrl,
+  getPuzzleGridVariant,
+  gridCodeStorageKey,
+  legacyProgressKey,
+  normalizeGridCode,
+  progressKey,
+  setGridCodeInUrl,
+} from './gridVariant';
 import type { Cell, PlacedWord, PuzzleConfig } from './types';
 
 type WordSearchGameProps = {
@@ -9,7 +20,6 @@ type WordSearchGameProps = {
 
 const cellKey = (cell: Cell) => `${cell.row}-${cell.col}`;
 const pathKey = (cells: Cell[]) => cells.map(cellKey).join('|');
-const progressKey = (puzzle: PuzzleConfig) => `word-search-progress:${puzzle.id}`;
 const ANSWER_COLORS = [
   '#d1495b',
   '#2a9d8f',
@@ -29,8 +39,25 @@ const getWordFromCells = (grid: string[][], cells: Cell[]) =>
 function WordSearchGame({ puzzle }: WordSearchGameProps) {
   const boardViewportRef = useRef<HTMLDivElement>(null);
   const panStateRef = useRef({ active: false, x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
+  const [gridCode, setGridCode] = useState(() => {
+    const urlGridCode = getGridCodeFromUrl();
+
+    if (urlGridCode !== DEFAULT_GRID_CODE) {
+      return urlGridCode;
+    }
+
+    return normalizeGridCode(window.localStorage.getItem(gridCodeStorageKey(puzzle)));
+  });
+  const puzzleGridVariant = useMemo(
+    () => getPuzzleGridVariant(puzzle, gridCode),
+    [gridCode, puzzle],
+  );
   const [foundWordIds, setFoundWordIds] = useState<Set<string>>(() => {
-    const savedProgress = window.localStorage.getItem(progressKey(puzzle));
+    const savedProgress =
+      window.localStorage.getItem(progressKey(puzzle, gridCode)) ??
+      (gridCode === DEFAULT_GRID_CODE
+        ? window.localStorage.getItem(legacyProgressKey(puzzle))
+        : null);
 
     if (!savedProgress) {
       return new Set();
@@ -48,7 +75,10 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
   const [zoom, setZoom] = useState(1);
   const [interactionMode, setInteractionMode] = useState<'select' | 'move'>('select');
 
-  const generatedPuzzle = useMemo(() => generateWordSearch(puzzle), [puzzle]);
+  const generatedPuzzle = useMemo(
+    () => generateWordSearch(puzzleGridVariant),
+    [puzzleGridVariant],
+  );
   const wordColors = useMemo(() => {
     const colors = new Map<string, string>();
 
@@ -111,6 +141,7 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
   const totalWords = generatedPuzzle.placedWords.length;
   const progress = Math.round((foundCount / totalWords) * 100);
   const isComplete = foundCount === totalWords;
+  const isCompactGrid = puzzle.size <= 20;
   const foundWords = useMemo(
     () =>
       generatedPuzzle.placedWords
@@ -120,8 +151,8 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
   );
 
   useEffect(() => {
-    window.localStorage.setItem(progressKey(puzzle), JSON.stringify([...foundWordIds]));
-  }, [foundWordIds, puzzle]);
+    window.localStorage.setItem(progressKey(puzzle, gridCode), JSON.stringify([...foundWordIds]));
+  }, [foundWordIds, gridCode, puzzle]);
 
   const finishSelection = () => {
     if (matchedWordIds.length) {
@@ -204,9 +235,24 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
     setZoom(Math.min(1.8, Math.max(0.75, Number(nextZoom.toFixed(2)))));
   };
 
-  const resetProgress = () => {
+  const clearProgress = () => {
     setFoundWordIds(new Set());
-    window.localStorage.removeItem(progressKey(puzzle));
+    window.localStorage.removeItem(progressKey(puzzle, gridCode));
+
+    if (gridCode === DEFAULT_GRID_CODE) {
+      window.localStorage.removeItem(legacyProgressKey(puzzle));
+    }
+  };
+
+  const shuffleAndReset = () => {
+    const nextGridCode = createGridCode();
+
+    setFoundWordIds(new Set());
+    window.localStorage.removeItem(progressKey(puzzle, gridCode));
+    window.localStorage.removeItem(legacyProgressKey(puzzle));
+    window.localStorage.setItem(gridCodeStorageKey(puzzle), nextGridCode);
+    setGridCode(nextGridCode);
+    setGridCodeInUrl(nextGridCode);
   };
 
   return (
@@ -217,6 +263,7 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
           '--accent-color': puzzle.theme?.accent ?? '#d1495b',
           '--found-color': puzzle.theme?.found ?? '#2a9d8f',
           '--selection-color': puzzle.theme?.selection ?? '#f4a261',
+          '--grid-size': puzzle.size,
         } as React.CSSProperties
       }
     >
@@ -275,15 +322,30 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
           </button>
         </div>
 
-        <button className={styles.resetProgressButton} type="button" onClick={resetProgress}>
-          Clear progress
-        </button>
+        <div className={styles.resetActions}>
+          <button
+            className={styles.resetProgressButton}
+            type="button"
+            onClick={clearProgress}
+          >
+            Clear progress
+          </button>
+          <button
+            className={`${styles.resetProgressButton} ${styles.shuffleButton}`}
+            type="button"
+            onClick={shuffleAndReset}
+          >
+            Shuffle and reset
+          </button>
+        </div>
       </div>
 
-      <div className={styles.layout}>
+      <div className={`${styles.layout} ${isCompactGrid ? styles.compactLayout : ''}`}>
         <div
           ref={boardViewportRef}
           className={`${styles.boardViewport} ${
+            isCompactGrid ? styles.compactBoardViewport : ''
+          } ${
             interactionMode === 'move' ? styles.moveMode : ''
           }`}
           onPointerDown={handleMovePointerDown}
@@ -294,7 +356,6 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
           <div
             className={styles.boardScaler}
             style={{
-              '--grid-size': puzzle.size,
               '--zoom': zoom,
             } as React.CSSProperties}
           >
@@ -346,6 +407,9 @@ function WordSearchGame({ puzzle }: WordSearchGameProps) {
 
         <aside className={styles.progressWordsPanel}>
           <h3>Progress</h3>
+          <p className={styles.gridCodeNote}>
+            Grid code <code>{gridCode}</code>
+          </p>
           <p className={styles.hiddenWordsNote}>
             The answers are hidden. Correct selections will appear here.
           </p>

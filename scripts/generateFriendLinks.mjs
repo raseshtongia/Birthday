@@ -6,6 +6,7 @@ const repoRoot = process.cwd();
 const sourceFile = path.join(repoRoot, 'src/data/friendWordLists.ts');
 const outputFile = path.join(repoRoot, 'FRIEND_LINKS.local.md');
 const defaultBaseUrl = 'https://raseshtongia.github.io/Birthday/';
+const localBaseUrl = 'http://localhost:5173/';
 const baseUrl = process.argv[2] ?? defaultBaseUrl;
 
 const ACCESS_TOKEN_SALT = 'birthdays-word-search-v1';
@@ -66,6 +67,7 @@ const loadFriendWordLists = async () => {
 
 const friendWordLists = await loadFriendWordLists();
 const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+const normalizedLocalBaseUrl = normalizeBaseUrl(localBaseUrl);
 const links = friendWordLists.map((friend) => {
   const token = createToken(friend);
 
@@ -73,6 +75,7 @@ const links = friendWordLists.map((friend) => {
     friendName: friend.friendName,
     token,
     url: `${normalizedBaseUrl}?friend=${encodeURIComponent(token)}`,
+    localUrl: `${normalizedLocalBaseUrl}?friend=${encodeURIComponent(token)}`,
   };
 });
 
@@ -90,11 +93,12 @@ const content = [
   'This file is generated locally by `npm run links` and is ignored by git.',
   '',
   `Base URL: ${normalizedBaseUrl}`,
+  `Local URL: ${normalizedLocalBaseUrl}`,
   '',
-  '| Friend | Token | URL |',
-  '| --- | --- | --- |',
+  '| Friend | Token | Deployed URL | Local URL |',
+  '| --- | --- | --- | --- |',
   ...links.map(
-    (link) => `| ${link.friendName} | \`${link.token}\` | ${link.url} |`,
+    (link) => `| ${link.friendName} | \`${link.token}\` | ${link.url} | ${link.localUrl} |`,
   ),
   '',
 ].join('\n');
@@ -104,4 +108,5 @@ await fs.writeFile(outputFile, content);
 console.log(`Generated ${path.relative(repoRoot, outputFile)}`);
 links.forEach((link) => {
   console.log(`${link.friendName}: ${link.url}`);
+  console.log(`${link.friendName} local: ${link.localUrl}`);
 });

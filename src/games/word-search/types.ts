@@ -20,9 +20,12 @@ export type PuzzleConfig = {
   id: string;
   accessToken: string;
   title: string;
+  pageEyebrow?: string;
+  pageTitle?: string;
+  pageSubtitle?: string;
   friendName?: string;
   message?: string;
-  size: 20 | 25 | 30 | 35 | 40 | 45 | 50;
+  size: 12 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   seed: string;
   allowedDirections: DirectionKey[];
   theme?: PuzzleTheme;
@@ -32,6 +35,10 @@ export type PuzzleConfig = {
 export type FriendWordList = {
   friendName: string;
   words: string[];
+  puzzleTitle?: string;
+  pageEyebrow?: string;
+  pageTitle?: string;
+  pageSubtitle?: string;
   message?: string;
   gridSize?: PuzzleConfig['size'];
   accessToken?: string;

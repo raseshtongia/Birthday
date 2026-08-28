@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styles from './App.module.css';
 import AdminAnswers from './admin/AdminAnswers';
 import { puzzles } from './data/puzzles';
@@ -29,22 +29,12 @@ function App() {
 type ThemeControls = ReturnType<typeof useTheme>;
 
 function FriendGameApp({ theme }: { theme: ThemeControls }) {
-  const [selectedPuzzleId, setSelectedPuzzleId] = useState(() => {
-    const token = getTokenFromUrl();
-    return puzzles.find((puzzle) => puzzle.accessToken === token)?.id ?? puzzles[0].id;
-  });
-
-  const selectedPuzzle = useMemo(
-    () => puzzles.find((puzzle) => puzzle.id === selectedPuzzleId) ?? puzzles[0],
-    [selectedPuzzleId],
-  );
   const token = getTokenFromUrl();
   const tokenPuzzle = useMemo(
     () => puzzles.find((puzzle) => puzzle.accessToken === token),
     [token],
   );
   const isFriendLink = Boolean(token);
-  const visiblePuzzle = tokenPuzzle ?? selectedPuzzle;
 
   if (isFriendLink && !tokenPuzzle) {
     return (
@@ -61,40 +51,53 @@ function FriendGameApp({ theme }: { theme: ThemeControls }) {
     );
   }
 
+  if (!tokenPuzzle) {
+    return (
+      <main className={styles.app}>
+        <header className={styles.header}>
+          <div>
+            <p className={styles.eyebrow}>Private puzzle</p>
+            <h1>Birthday Word Search</h1>
+            <p className={styles.subtitle}>
+              This game opens from a private friend link. Ask for your birthday
+              puzzle link to start playing.
+            </p>
+          </div>
+
+          <div className={styles.headerActions}>
+            <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
+          </div>
+        </header>
+
+        <section className={styles.defaultPage}>
+          <h2>Ready when you have your link.</h2>
+          <p>
+            Friend puzzles are not shown on the default page. Use the exact link
+            shared with you to open your game.
+          </p>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className={styles.app}>
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>Phase 1</p>
-          <h1>Birthday Word Search</h1>
+          <p className={styles.eyebrow}>{tokenPuzzle.pageEyebrow ?? 'Phase 1'}</p>
+          <h1>{tokenPuzzle.pageTitle ?? 'Birthday Word Search'}</h1>
           <p className={styles.subtitle}>
-            Drag across the grid and find the hidden words. The word list stays
-            hidden until each answer is discovered.
+            {tokenPuzzle.pageSubtitle ??
+              'Drag across the grid and find the hidden words. The word list stays hidden until each answer is discovered.'}
           </p>
         </div>
 
         <div className={styles.headerActions}>
           <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
-
-          {!isFriendLink && (
-            <label className={styles.picker}>
-              <span>Puzzle</span>
-              <select
-                value={selectedPuzzleId}
-                onChange={(event) => setSelectedPuzzleId(event.target.value)}
-              >
-                {puzzles.map((puzzle) => (
-                  <option key={puzzle.id} value={puzzle.id}>
-                    {puzzle.title}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
         </div>
       </header>
 
-      <WordSearchGame key={visiblePuzzle.id} puzzle={visiblePuzzle} />
+      <WordSearchGame key={tokenPuzzle.id} puzzle={tokenPuzzle} />
     </main>
   );
 }

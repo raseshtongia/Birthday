@@ -135,6 +135,10 @@ Use these only when you want to override the defaults:
 ```ts
 {
   friendName: 'Friend Name',
+  pageEyebrow: 'Custom label',
+  pageTitle: 'Custom Word Search',
+  pageSubtitle: 'Custom text above the puzzle.',
+  puzzleTitle: 'Custom Puzzle Title',
   accessToken: 'custom-long-secret-token',
   gridSize: 25,
   theme: {
@@ -145,6 +149,14 @@ Use these only when you want to override the defaults:
   words: ['FIRST WORD', 'SECOND WORD'],
 }
 ```
+
+The page text fields are optional. If you skip them, the app keeps the birthday
+defaults:
+
+- `pageEyebrow`: `Phase 1`
+- `pageTitle`: `Birthday Word Search`
+- `pageSubtitle`: the default drag/find instructions
+- `puzzleTitle`: `${friendName}'s Birthday Hunt`
 
 By default, each friend gets a stable readable token in this format:
 
@@ -188,6 +200,9 @@ need bigger grids. The generator also prefers overlapping placements when
 letters match, including overlaps at starting cells when possible.
 
 ### Friend Links
+
+The default app page does not show any friend's puzzle. Every player should use
+a valid friend-specific link.
 
 Each friend can open their puzzle using the `accessToken`:
 
@@ -235,6 +250,41 @@ That means:
 
 For cross-device progress, use an online database in a later phase.
 
+### Grid Randomizer
+
+Each puzzle layout is generated from the friend plus a grid code.
+
+Existing links without a grid code keep using the stable default layout:
+
+```text
+https://YOUR_DOMAIN/?friend=FRIEND_ACCESS_TOKEN
+```
+
+When a player clicks `Clear progress`, the app:
+
+- clears their current found-word progress
+- keeps the same grid code
+- keeps the same letter layout
+
+When a player clicks `Shuffle and reset`, the app:
+
+- clears their current found-word progress
+- creates a new 6-character grid code
+- updates the browser URL with that grid code
+- generates a new deterministic layout for that friend
+
+Example:
+
+```text
+https://YOUR_DOMAIN/?friend=FRIEND_ACCESS_TOKEN&grid=Q7M2XA
+```
+
+The same friend token plus the same grid code will always produce the same
+grid, so you do not need to keep 10 separate static puzzle versions.
+
+Progress is saved separately per grid code. If a player shuffles, their old
+grid progress is not mixed with the new grid.
+
 ### Hidden Word List
 
 The app does not show the full list of words. It shows only:
@@ -280,6 +330,17 @@ For GitHub Pages, add a repository secret named `VITE_ADMIN_PASSCODE`:
 
 The admin page shows one friend's solved grid at a time. Use the dropdown to
 switch between friends.
+
+To view the exact answer key for a shuffled player grid, use the same grid code
+shown on the player screen or in the player's URL. You can either:
+
+- open admin with the friend and grid already selected:
+
+```text
+https://YOUR_DOMAIN/?admin=1&friend=FRIEND_ACCESS_TOKEN&grid=Q7M2XA
+```
+
+- or open admin normally and enter `Q7M2XA` in the `Grid code` field.
 
 This admin gate is only for convenience. Vite embeds `VITE_` variables into the
 browser bundle at build time, and the answer data is still part of the static

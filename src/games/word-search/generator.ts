@@ -17,7 +17,7 @@ const DIRECTIONS: Record<DirectionKey, { row: number; col: number }> = {
   NW: { row: -1, col: -1 },
 };
 
-const SUPPORTED_SIZES = new Set([20, 25, 30, 35, 40, 45, 50]);
+const SUPPORTED_SIZES = new Set([12, 15, 20, 25, 30, 35, 40, 45, 50]);
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const normalizeWord = (word: string) =>
@@ -95,7 +95,7 @@ const getPlacementScore = (grid: string[][], word: string, cells: Cell[]) =>
 
 const validatePuzzle = (puzzle: PuzzleConfig) => {
   if (!SUPPORTED_SIZES.has(puzzle.size)) {
-    throw new Error(`Unsupported grid size "${puzzle.size}". Use 20, 25, 30, 35, 40, 45, or 50.`);
+    throw new Error(`Unsupported grid size "${puzzle.size}". Use 12, 15, 20, 25, 30, 35, 40, 45, or 50.`);
   }
 
   if (!puzzle.words.length) {

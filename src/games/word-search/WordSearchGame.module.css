@@ -2,32 +2,35 @@
   --accent-color: #d1495b;
   --found-color: #2a9d8f;
   --selection-color: #f4a261;
-  --cell-size: 32px;
+  --cell-size: min(21px, calc((100vw - 360px) / var(--grid-size)));
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
-  padding: 20px;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 8px;
 }
 
 .gameHeader {
   display: flex;
   justify-content: space-between;
-  gap: 22px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 10px;
 }
 
 .gameHeader h2 {
   margin: 0;
   color: var(--color-text);
-  font-size: 26px;
+  font-size: 21px;
   letter-spacing: 0;
 }
 
 .gameHeader p {
   max-width: 720px;
-  margin: 8px 0 0;
+  margin: 5px 0 0;
   color: var(--color-text-muted);
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -40,9 +43,10 @@
 .progressPanel {
   display: grid;
   align-content: center;
-  gap: 8px;
-  width: 220px;
+  gap: 6px;
+  width: 190px;
   color: var(--color-text-muted);
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -64,8 +68,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .completeBanner {
@@ -95,6 +99,12 @@
   gap: 6px;
 }
 
+.resetActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .segmentedControl {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
@@ -104,14 +114,15 @@
 
 .segmentedControl button,
 .zoomControls button {
-  min-height: 36px;
+  min-height: 32px;
   border: 0;
   border-radius: 7px;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
+  font-size: 13px;
   font-weight: 800;
-  padding: 0 12px;
+  padding: 0 10px;
 }
 
 .segmentedControl .activeSegment {
@@ -137,24 +148,32 @@
 }
 
 .resetProgressButton {
-  min-height: 36px;
+  min-height: 32px;
   border-radius: 7px;
   color: var(--color-text-muted);
   cursor: pointer;
+  font-size: 13px;
   font-weight: 800;
-  padding: 0 12px;
+  padding: 0 10px;
+}
+
+.shuffleButton {
+  border-color: color-mix(in srgb, var(--accent-color) 52%, var(--color-border));
+  color: var(--accent-color);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 12px;
   align-items: start;
+  min-width: 0;
 }
 
 .boardViewport {
   width: 100%;
-  max-height: min(72vh, 900px);
+  min-width: 0;
+  max-height: min(78vh, 940px);
   overflow: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
@@ -164,6 +183,22 @@
     var(--color-grid-bg);
   padding: 14px;
   overscroll-behavior: contain;
+}
+
+.compactBoardViewport {
+  --cell-size: min(20px, calc((100vw - 96px) / var(--grid-size)));
+  display: grid;
+  justify-content: center;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+.compactBoardViewport .cell {
+  font-size: clamp(11px, calc(var(--cell-size) * 0.48), 15px);
+}
+
+.compactBoardViewport::-webkit-scrollbar {
+  display: none;
 }
 
 .moveMode {
@@ -196,7 +231,7 @@
   background: var(--color-cell);
   color: var(--color-cell-text);
   cursor: crosshair;
-  font-size: 15px;
+  font-size: clamp(11px, calc(var(--cell-size) * 0.48), 14px);
   font-weight: 900;
   line-height: 1;
   padding: 0;
@@ -233,12 +268,13 @@
   border-radius: var(--radius-card);
   background: var(--color-surface-soft);
   padding: 16px;
+  min-width: 0;
 }
 
 .progressWordsPanel h3 {
   margin: 0 0 12px;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .hiddenWordsNote {
@@ -246,6 +282,24 @@
   color: var(--color-text-soft);
   font-size: 14px;
   line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.gridCodeNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 12px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gridCodeNote code {
+  border-radius: 6px;
+  background: var(--color-chip);
+  color: var(--color-text);
+  padding: 4px 7px;
 }
 
 .wordsList {
@@ -285,12 +339,16 @@
   .progressWordsPanel {
     order: -1;
   }
+
+  .compactLayout .progressWordsPanel {
+    order: 1;
+  }
 }
 
 @media (max-width: 720px) {
   .shell {
-    --cell-size: 30px;
-    padding: 12px;
+    --cell-size: clamp(12px, calc((100vw - 78px) / var(--grid-size)), 30px);
+    padding: 10px;
   }
 
   .gameHeader,
@@ -313,12 +371,15 @@
   }
 
   .segmentedControl,
-  .zoomControls {
+  .zoomControls,
+  .resetActions {
     justify-content: center;
+    min-width: 0;
     width: 100%;
   }
 
-  .segmentedControl button {
+  .segmentedControl button,
+  .resetActions button {
     flex: 1;
   }
 
@@ -333,5 +394,16 @@
   .boardViewport {
     max-height: 62vh;
     padding: 8px;
+  }
+
+  .compactBoardViewport {
+    --cell-size: min(13px, calc((100vw - 76px) / var(--grid-size)));
+    justify-content: center;
+    max-height: none;
+    padding: 4px;
+  }
+
+  .compactBoardViewport .cell {
+    font-size: clamp(8px, calc(var(--cell-size) * 0.5), 15px);
   }
 }

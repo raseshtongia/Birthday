@@ -1,7 +1,7 @@
 .adminPage {
-  width: min(1180px, 100%);
+  width: min(1680px, 100%);
   margin: 0 auto;
-  padding: 28px;
+  padding: 16px;
 }
 
 .header,
@@ -17,16 +17,17 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding: 22px;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 16px;
 }
 
 .header h1,
 .loginPanel h1 {
   margin: 0;
   color: var(--color-text);
-  font-size: 40px;
+  font-size: 30px;
+  line-height: 1;
   letter-spacing: 0;
 }
 
@@ -35,13 +36,14 @@
 .puzzleHeader p {
   margin: 8px 0 0;
   color: var(--color-text-muted);
+  font-size: 14px;
   line-height: 1.5;
 }
 
 .eyebrow {
   margin: 0 0 8px;
   color: var(--color-primary);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
@@ -49,16 +51,29 @@
 
 .header button,
 .loginForm button,
-.puzzleToolbar a {
-  min-height: 38px;
+.puzzleToolbar a,
+.disabledAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
   border: 1px solid var(--color-primary);
   border-radius: var(--radius-control);
   background: var(--color-primary);
   color: var(--color-primary-contrast);
   cursor: pointer;
+  font-size: 13px;
   font-weight: 800;
-  padding: 0 14px;
+  padding: 0 12px;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+.disabledAction {
+  border-color: var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-soft);
+  cursor: not-allowed;
 }
 
 .loginTheme {
@@ -70,7 +85,7 @@
 .headerActions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .loginPanel {
@@ -112,41 +127,44 @@
 }
 
 .puzzlePanel {
-  padding: 18px;
+  padding: 12px;
 }
 
 .puzzleToolbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 180px auto;
   align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .puzzleToolbar label {
   display: grid;
-  gap: 8px;
-  min-width: 280px;
+  gap: 6px;
+  min-width: 0;
   color: var(--color-text-muted);
+  font-size: 13px;
   font-weight: 800;
 }
 
-.puzzleToolbar select {
+.puzzleToolbar select,
+.puzzleToolbar input {
   width: 100%;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-control);
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  padding: 11px 12px;
+  font-size: 14px;
+  padding: 8px 10px;
 }
 
 .puzzleMeta {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .puzzleMeta div {
@@ -155,19 +173,19 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   background: var(--color-surface-soft);
-  padding: 12px;
+  padding: 9px 10px;
 }
 
 .puzzleMeta span {
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
 }
 
 .puzzleMeta strong {
   color: var(--color-text);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .puzzleMeta code {
@@ -175,24 +193,45 @@
   border-radius: 6px;
   background: var(--color-chip);
   color: var(--color-text);
-  padding: 6px 8px;
+  font-size: 13px;
+  padding: 5px 7px;
+}
+
+.emptyAdminState {
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-soft);
+  padding: 28px;
+}
+
+.emptyAdminState h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 22px;
+}
+
+.emptyAdminState p {
+  max-width: 560px;
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
 }
 
 .solvedLayout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 12px;
   align-items: start;
 }
 
 .solutionViewport {
-  --admin-cell-size: 30px;
+  --admin-cell-size: 22px;
   overflow: auto;
   max-height: 72vh;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-grid-bg);
-  padding: 12px;
+  padding: 8px;
 }
 
 .solutionGrid {
@@ -208,7 +247,7 @@
   border: 1px solid var(--color-grid-line);
   background: var(--color-cell);
   color: var(--color-cell-text);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 900;
 }
 
@@ -223,13 +262,13 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface-soft);
-  padding: 16px;
+  padding: 12px;
 }
 
 .answerWords h2 {
   margin: 0 0 12px;
   color: var(--color-text);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .answerWordList {
@@ -243,20 +282,24 @@
   border-radius: 999px;
   background: color-mix(in srgb, var(--answer-color) 18%, var(--color-surface));
   color: var(--color-text);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  padding: 7px 10px;
+  padding: 6px 9px;
 }
 
 @media (max-width: 720px) {
   .adminPage {
-    padding: 18px;
+    padding: 12px;
   }
 
   .header,
   .puzzleToolbar {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .puzzleToolbar {
+    display: flex;
   }
 
   .headerActions,

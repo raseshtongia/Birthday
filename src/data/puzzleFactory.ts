@@ -50,6 +50,10 @@ export const recommendGridSize = (words: string[]): PuzzleConfig['size'] => {
   const longestWord = Math.max(...normalizedWords.map((word) => word.length), 0);
   const totalLetters = normalizedWords.reduce((sum, word) => sum + word.length, 0);
 
+  if (longestWord <= 15 && wordCount <= 12 && totalLetters <= 90) {
+    return 15;
+  }
+
   if (longestWord > 45 || wordCount > 85 || totalLetters > 820) {
     return 50;
   }
@@ -88,7 +92,10 @@ export const createPuzzleFromFriend = (friend: FriendWordList): PuzzleConfig => 
   return {
     id,
     accessToken: token,
-    title: `${friend.friendName}'s Birthday Hunt`,
+    title: friend.puzzleTitle ?? `${friend.friendName}'s Birthday Hunt`,
+    pageEyebrow: friend.pageEyebrow,
+    pageTitle: friend.pageTitle,
+    pageSubtitle: friend.pageSubtitle,
     friendName: friend.friendName,
     message: friend.message,
     size: friend.gridSize ?? recommendGridSize(words),

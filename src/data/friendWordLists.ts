@@ -39,7 +39,25 @@ export const friendWordLists: FriendWordList[] = [
     message: 'Can you find us all?',
     gridSize: 35,
     words: [
-      'Aarushi', 'Abhishek', 'Aditi', 'Aditya', 'Aishwarya', 'Akanksha', 'Akshat', 'Alisha', 'Aman', 'Ankit', 'Anuj', 'Arifa', 'Ayush', 'Chirag', 'Deepak', 'Deepansh', 'Devyani', 'Divyanshi', 'Garvit', 'Gladiolus', 'Himanshi', 'Himanshu', 'Isha', 'Jayesh', 'Kamal', 'Kavish', 'Khushboo', 'Mansi', 'Mayur', 'Mridul', 'Mridula', 'Neelabh', 'Neetu', 'Neha', 'Nikhil', 'Nilesh', 'Nimish', 'Nisha', 'Pratayusha', 'Prateek', 'Priya', 'Punit', 'Punya', 'Rajat', 'Rasesh', 'Rini', 'Rishabh', 'Rishi', 'Rushda', 'Sachin', 'Sameeksha', 'Shashank', 'Shivam', 'Shivani', 'Shruti', 'Shubham', 'Simmi', 'Sushant', 'Taikhoom', 'Tanveer', 'Umang', 'Unnati', 'Vijay', 'Vinod', 'Vishal', 'Yash'
+      'Aarushi', 'Abhishek', 'Aditi', 'Aditya', 'Aishwarya', 'Akanksha', 'Akshat', 'Alisha', 'Aman', 'Ankit', 'Anuj', 'Arifa', 'Ayush', 'Chirag', 'Deepak', 'Deepansh', 'Devyani', 'Divyanshi', 'Garvit', 'Gladiolus', 'Himanshi', 'Himanshu', 'Isha', 'Jayesh', 'Kamal', 'Kavish', 'Khushboo', 'Mansi', 'Mayur', 'Mridul', 'Mridula', 'Neelabh', 'Neetu', 'Neha', 'Nikhil', 'Nilesh', 'Nimish', 'Nisha', 'Pratayusha', 'Prateek', 'Priya', 'Punit', 'Punya', 'Rajat', 'Rini', 'Rishabh', 'Rishi', 'Rushda', 'Sachin', 'Sameeksha', 'Shashank', 'Shivam', 'Shivani', 'Shruti', 'Shubham', 'Simmi', 'Sushant', 'Taikhoom', 'Tanveer', 'Umang', 'Unnati', 'Vijay', 'Vinod', 'Vishal', 'Yash'
     ],
-  }
+  },
+  {
+    friendName: 'Vaneesha',
+    message: 'Can you find them all Vannu?',
+    gridSize: 15,
+    words: [
+      'Purple',
+      'Rainbow school',
+      'Margarita pizza',
+      'Peri peri dosa',
+      'Sweetheart',
+      'Regency Tower',
+      'Pizziuno',
+      'Kathak class',
+      'Chatakchale',
+      'Bhindi',
+      'Chakli',
+    ],
+  },
 ];

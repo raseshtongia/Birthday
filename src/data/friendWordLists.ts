@@ -65,7 +65,15 @@ export const friendWordLists: FriendWordList[] = [
     message: 'Can you find them all taru?',
     gridSize: 15,
     words: [
-      'Jinisha','Taylor Swift','KATSEYE','singhania','aaradhya','maggi','pav bhaji','Pink','uno no mercy','hide and seek','delure','tropical lagoon','BTS','KPOP'
+      'Jinisha', 'Taylor Swift', 'KATSEYE', 'singhania', 'aaradhya', 'maggi', 'pav bhaji', 'Pink', 'uno no mercy', 'hide and seek', 'delure', 'tropical lagoon', 'BTS', 'KPOP'
     ],
   },
+  {
+    friendName: 'Devyani',
+    message: 'Can you find them all devu?',
+    gridSize: 20,
+    words: [
+      'Moh', 'Frenemy', 'Gandhinagar', 'Climate', 'IBM', 'Coffee', 'Book', 'Jane Austen', 'Arundhati Roy ', 'Barcelona', 'IISC', 'Bengaluru', 'Alberto Costa', 'Scion habitat', 'Kolkata', 'Avishek Shaw', 'Van gough', 'Starry night', 'Lal bagh', 'We four', 'Pixxel', 'ACM sigkdd', 'Akshat Garden'
+    ],
+  }
 ];

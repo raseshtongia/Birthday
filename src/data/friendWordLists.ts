@@ -60,4 +60,12 @@ export const friendWordLists: FriendWordList[] = [
       'Chakli',
     ],
   },
+  {
+    friendName: 'Tara',
+    message: 'Can you find them all taru?',
+    gridSize: 15,
+    words: [
+      'Jinisha','Taru','Bhindi','singhaniya','aaradhya','maggi','pav bhaji','Pink','uno no mercy','hide and seek','delure','tropical lagoon','BTS'
+    ],
+  },
 ];

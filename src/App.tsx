@@ -82,22 +82,8 @@ function FriendGameApp({ theme }: { theme: ThemeControls }) {
 
   return (
     <main className={styles.app}>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.eyebrow}>{tokenPuzzle.pageEyebrow ?? 'Phase 1'}</p>
-          <h1>{tokenPuzzle.pageTitle ?? 'Birthday Word Search'}</h1>
-          <p className={styles.subtitle}>
-            {tokenPuzzle.pageSubtitle ??
-              'Drag across the grid and find the hidden words. The word list stays hidden until each answer is discovered.'}
-          </p>
-        </div>
-
-        <div className={styles.headerActions}>
-          <ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />
-        </div>
-      </header>
-
-      <WordSearchGame key={tokenPuzzle.id} puzzle={tokenPuzzle} />
+      <WordSearchGame key={tokenPuzzle.id} puzzle={tokenPuzzle}
+        headerActions={<ThemeToggle value={theme.themeMode} onChange={theme.setThemeMode} />} />
     </main>
   );
 }

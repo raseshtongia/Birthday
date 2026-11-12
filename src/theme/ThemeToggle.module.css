@@ -35,7 +35,6 @@
 
 @media (max-width: 520px) {
   .toggle {
-    grid-template-columns: 1fr;
     width: 100%;
   }
 

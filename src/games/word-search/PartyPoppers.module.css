@@ -1,0 +1,32 @@
+.burst {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  top: 70%;
+  width: 7px;
+  height: 12px;
+  background: var(--color);
+  opacity: 0;
+  animation: pop 1100ms var(--delay) ease-out both;
+}
+
+.particle:nth-child(3n) { border-radius: 50%; height: 7px; }
+.particle:nth-child(4n) { width: 4px; height: 16px; }
+
+@keyframes pop {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+  10% { opacity: 1; }
+  50% { opacity: 1; transform: translate(calc(var(--drift) * 0.6), var(--rise)) rotate(calc(var(--spin) * 0.5)); }
+  100% { opacity: 0; transform: translate(var(--drift), 70px) rotate(var(--spin)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burst { display: none; }
+  .particle { animation: none; }
+}

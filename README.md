@@ -139,6 +139,7 @@ Use these only when you want to override the defaults:
   pageTitle: 'Custom Word Search',
   pageSubtitle: 'Custom text above the puzzle.',
   puzzleTitle: 'Custom Puzzle Title',
+  completionMessage: 'You found everyone! Thanks for playing.',
   accessToken: 'custom-long-secret-token',
   gridSize: 25,
   theme: {
@@ -157,6 +158,23 @@ defaults:
 - `pageTitle`: `Birthday Word Search`
 - `pageSubtitle`: the default drag/find instructions
 - `puzzleTitle`: `${friendName}'s Birthday Hunt`
+
+The player screen uses `puzzleTitle` as its single main heading. The page title
+and subtitle remain available under Puzzle details. `completionMessage` sets the
+personal message shown after all words are discovered.
+
+### Game Controls
+
+- Fit grid fits the full board within the available width and screen height.
+- Zoom enlarges the letters; use Move to pan a board that overflows its section.
+- Fullscreen expands the game, with an in-page expanded view on unsupported browsers.
+- Clear progress asks for confirmation and keeps the current layout.
+- Shuffle and reset asks for confirmation and creates a new grid code.
+- Words discovered lists only found words, newest first, without strikethrough.
+- Puzzle details contains the grid code needed to reproduce the admin answer key.
+- Completing the puzzle shows a personal message and an optional Play another grid action.
+- Celebrations toggles brief party-popper confetti for newly discovered words. The
+  choice is remembered in this browser. Reduced-motion settings suppress the animation.
 
 By default, each friend gets a stable readable token in this format:
 

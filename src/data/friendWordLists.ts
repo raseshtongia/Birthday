@@ -65,7 +65,7 @@ export const friendWordLists: FriendWordList[] = [
     message: 'Can you find them all taru?',
     gridSize: 15,
     words: [
-      'Jinisha','Taru','Bhindi','singhaniya','aaradhya','maggi','pav bhaji','Pink','uno no mercy','hide and seek','delure','tropical lagoon','BTS'
+      'Jinisha','Taylor Swift','KATSEYE','singhania','aaradhya','maggi','pav bhaji','Pink','uno no mercy','hide and seek','delure','tropical lagoon','BTS','KPOP'
     ],
   },
 ];

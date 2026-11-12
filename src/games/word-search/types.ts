@@ -25,6 +25,7 @@ export type PuzzleConfig = {
   pageSubtitle?: string;
   friendName?: string;
   message?: string;
+  completionMessage?: string;
   size: 12 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   seed: string;
   allowedDirections: DirectionKey[];
@@ -40,6 +41,7 @@ export type FriendWordList = {
   pageTitle?: string;
   pageSubtitle?: string;
   message?: string;
+  completionMessage?: string;
   gridSize?: PuzzleConfig['size'];
   accessToken?: string;
   theme?: PuzzleTheme;

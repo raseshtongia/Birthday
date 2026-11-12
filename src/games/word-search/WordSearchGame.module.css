@@ -2,408 +2,115 @@
   --accent-color: #d1495b;
   --found-color: #2a9d8f;
   --selection-color: #f4a261;
-  --cell-size: min(21px, calc((100vw - 360px) / var(--grid-size)));
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
-  max-width: 100%;
-  overflow: hidden;
-  padding: 8px;
-}
-
-.gameHeader {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 10px;
-}
-
-.gameHeader h2 {
-  margin: 0;
-  color: var(--color-text);
-  font-size: 21px;
-  letter-spacing: 0;
-}
-
-.gameHeader p {
-  max-width: 720px;
-  margin: 5px 0 0;
-  color: var(--color-text-muted);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.friendName {
-  margin-top: 6px;
-  color: var(--accent-color);
-  font-weight: 800;
-}
-
-.progressPanel {
-  display: grid;
-  align-content: center;
-  gap: 6px;
-  width: 190px;
-  color: var(--color-text-muted);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.progressTrack {
-  height: 10px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--color-chip);
-}
-
-.progressTrack div {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--found-color);
-  transition: width 180ms ease;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.completeBanner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid color-mix(in srgb, var(--found-color) 60%, var(--color-border));
-  border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--found-color) 14%, var(--color-surface));
-  color: var(--color-text);
-  margin-bottom: 16px;
-  padding: 12px 14px;
-}
-
-.completeBanner strong {
-  color: var(--found-color);
-}
-
-.completeBanner span {
-  color: var(--color-text-muted);
-}
-
-.segmentedControl,
-.zoomControls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.resetActions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.segmentedControl {
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  background: var(--color-surface-soft);
-  padding: 4px;
-}
-
-.segmentedControl button,
-.zoomControls button {
-  min-height: 32px;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 0 10px;
-}
-
-.segmentedControl .activeSegment {
-  background: var(--accent-color);
-  color: var(--color-primary-contrast);
-}
-
-.zoomControls {
-  color: var(--color-text-muted);
-  font-weight: 800;
-}
-
-.zoomControls button,
-.resetProgressButton {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-}
-
-.zoomControls button:hover,
-.resetProgressButton:hover {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-}
-
-.resetProgressButton {
-  min-height: 32px;
-  border-radius: 7px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 0 10px;
-}
-
-.shuffleButton {
-  border-color: color-mix(in srgb, var(--accent-color) 52%, var(--color-border));
-  color: var(--accent-color);
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 12px;
-  align-items: start;
-  min-width: 0;
-}
-
-.boardViewport {
-  width: 100%;
-  min-width: 0;
-  max-height: min(78vh, 940px);
-  overflow: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--color-border) 35%, transparent) 1px, transparent 1px),
-    linear-gradient(color-mix(in srgb, var(--color-border) 35%, transparent) 1px, transparent 1px),
-    var(--color-grid-bg);
-  padding: 14px;
-  overscroll-behavior: contain;
-}
-
-.compactBoardViewport {
-  --cell-size: min(20px, calc((100vw - 96px) / var(--grid-size)));
-  display: grid;
-  justify-content: center;
-  overflow: hidden;
-  scrollbar-width: none;
-}
-
-.compactBoardViewport .cell {
-  font-size: clamp(11px, calc(var(--cell-size) * 0.48), 15px);
-}
-
-.compactBoardViewport::-webkit-scrollbar {
-  display: none;
-}
-
-.moveMode {
-  cursor: grab;
-}
-
-.moveMode:active {
-  cursor: grabbing;
-}
-
-.boardScaler {
-  width: max-content;
-  min-width: calc(var(--grid-size) * var(--cell-size) * var(--zoom));
-  min-height: calc(var(--grid-size) * var(--cell-size) * var(--zoom));
-}
-
-.board {
-  display: grid;
-  width: max-content;
-  transform-origin: top left;
-  user-select: none;
-}
-
-.cell {
-  display: grid;
-  width: var(--cell-size);
-  height: var(--cell-size);
-  place-items: center;
-  border: 1px solid var(--color-grid-line);
-  background: var(--color-cell);
-  color: var(--color-cell-text);
-  cursor: crosshair;
-  font-size: clamp(11px, calc(var(--cell-size) * 0.48), 14px);
-  font-weight: 900;
-  line-height: 1;
-  padding: 0;
-  touch-action: none;
-}
-
-.cell:hover {
-  border-color: var(--accent-color);
-}
-
-.cell:disabled {
-  cursor: grab;
-  opacity: 1;
-}
-
-.selectedCell {
-  background: color-mix(in srgb, var(--selection-color) 45%, var(--color-cell));
-  border-color: var(--selection-color);
-}
-
-.matchedCell,
-.foundCell {
-  background: color-mix(in srgb, var(--word-color, var(--found-color)) 30%, var(--color-cell));
-  border-color: var(--word-color, var(--found-color));
-  color: var(--color-found-cell-text, #0f3d36);
-}
-
-.matchedCell {
-  box-shadow: inset 0 0 0 2px var(--word-color, var(--found-color));
-}
-
-.progressWordsPanel {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface-soft);
+  border-radius: 8px;
   padding: 16px;
   min-width: 0;
 }
-
-.progressWordsPanel h3 {
-  margin: 0 0 12px;
-  color: var(--color-text);
-  font-size: 16px;
+.gameHeader { display: flex; align-items: center; gap: 24px; margin-bottom: 14px; }
+.gameHeader > :first-child { flex: 1; min-width: 0; }
+.gameHeader h1 { margin: 0; font-size: 24px; line-height: 1.2; overflow-wrap: anywhere; }
+.gameHeader p { margin: 5px 0 0; color: var(--color-text-muted); font-size: 14px; }
+.gameHeader .eyebrow { margin: 0 0 4px; font-size: 11px; font-weight: 800; color: var(--color-primary); }
+.headerActions { flex-shrink: 0; }
+.progressPanel { display: grid; gap: 6px; width: 150px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+.progressTrack { height: 6px; border-radius: 4px; overflow: hidden; background: var(--color-chip); }
+.progressTrack div { height: 100%; background: var(--found-color); transition: width 180ms ease; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.segmentedControl, .zoomControls { display: flex; align-items: center; gap: 4px; }
+.segmentedControl { padding: 3px; background: var(--color-surface-soft); border: 1px solid var(--color-border); border-radius: 8px; }
+.controls button, .resetProgressButton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 36px; padding: 0 10px; border: 1px solid var(--color-border);
+  border-radius: 6px; background: var(--color-surface); color: var(--color-text-muted);
+  font-size: 13px; font-weight: 700; cursor: pointer;
 }
-
-.hiddenWordsNote {
-  margin: 0 0 12px;
-  color: var(--color-text-soft);
-  font-size: 14px;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
+.segmentedControl button { border-color: transparent; background: transparent; }
+.segmentedControl .activeSegment { background: var(--color-primary); color: var(--color-primary-contrast); box-shadow: var(--shadow-soft); }
+.zoomControls span { width: 44px; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--color-text-muted); }
+.zoomControls button[aria-pressed='true'] { border-color: var(--color-primary); color: var(--color-primary); }
+.controls button:hover, .resetProgressButton:hover { border-color: var(--color-primary); }
+.feedback { height: 28px; display: flex; align-items: center; color: var(--color-text-muted); font-size: 13px; font-weight: 700; }
+.feedbackRow { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 36px; }
+.feedbackRow .feedback { min-width: 0; height: auto; overflow-wrap: anywhere; }
+.celebrationToggle { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; flex-shrink: 0; color: var(--color-text-muted); font-size: 12px; cursor: pointer; }
+.celebrationToggle input { accent-color: var(--color-primary); width: 16px; height: 16px; margin: 0; cursor: pointer; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 16px; align-items: start; min-width: 0; }
+.boardViewport {
+  width: 100%; min-width: 0; max-height: 72dvh; padding: 12px; overflow: auto;
+  scrollbar-gutter: stable; scrollbar-width: auto; scrollbar-color: var(--color-text-soft) var(--color-grid-bg);
+  border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-grid-bg);
+  overscroll-behavior: contain;
 }
-
-.gridCodeNote {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: -4px 0 12px;
-  color: var(--color-text-muted);
-  font-size: 13px;
-  font-weight: 800;
+.boardViewport::-webkit-scrollbar { width: 12px; height: 12px; }
+.boardViewport::-webkit-scrollbar-track { background: var(--color-grid-bg); }
+.boardViewport::-webkit-scrollbar-thumb { background: var(--color-text-soft); border: 3px solid var(--color-grid-bg); border-radius: 6px; }
+.boardViewport:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.moveMode { cursor: grab; touch-action: none; }
+.moveMode:active { cursor: grabbing; }
+.boardScaler { width: max-content; margin-inline: auto; }
+.board { display: grid; width: max-content; user-select: none; }
+.cell {
+  display: grid; place-items: center; width: var(--cell-size); height: var(--cell-size);
+  border: 1px solid var(--color-grid-line); background: var(--color-cell); color: var(--color-cell-text);
+  cursor: crosshair; font-size: clamp(6px, calc(var(--cell-size) * 0.55), 22px);
+  font-weight: 800; line-height: 1; padding: 0; touch-action: none;
 }
-
-.gridCodeNote code {
-  border-radius: 6px;
-  background: var(--color-chip);
-  color: var(--color-text);
-  padding: 4px 7px;
+.cell:disabled { opacity: 1; cursor: grab; }
+.selectedCell { background: color-mix(in srgb, var(--selection-color) 45%, var(--color-cell)); box-shadow: inset 0 0 0 2px var(--selection-color); }
+.foundCell, .matchedCell {
+  background: color-mix(in srgb, var(--word-color, var(--found-color)) 30%, var(--color-cell));
+  border-color: var(--word-color, var(--found-color)); color: var(--color-found-cell-text);
 }
-
-.wordsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.wordPill {
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-  font-size: 13px;
-  font-weight: 800;
-  padding: 7px 10px;
-}
-
-.wordFound {
-  border-color: color-mix(in srgb, var(--word-color, var(--found-color)) 65%, var(--color-surface));
-  background: color-mix(in srgb, var(--word-color, var(--found-color)) 16%, var(--color-surface));
-  color: var(--color-text);
-  text-decoration: line-through;
-}
-
-.emptyProgress {
-  color: var(--color-text-soft);
-  font-size: 14px;
-  font-weight: 700;
-}
-
+.matchedCell { box-shadow: inset 0 0 0 2px var(--word-color, var(--found-color)); }
+.successCell { animation: foundPulse 650ms ease-out; }
+.missCell:not(.foundCell) { animation: missPulse 650ms ease-out; }
+@keyframes foundPulse { 50% { box-shadow: inset 0 0 0 3px var(--word-color, var(--found-color)); filter: brightness(1.3); } }
+@keyframes missPulse { 35% { background: color-mix(in srgb, var(--selection-color) 25%, var(--color-cell)); } }
+.progressWordsPanel { padding: 0 2px; min-width: 0; }
+.progressWordsPanel h3 { display: flex; align-items: center; justify-content: space-between; margin: 0 0 14px; font-size: 15px; }
+.progressWordsPanel h3 span { color: var(--color-text-soft); font-size: 13px; }
+.wordsList { display: flex; flex-wrap: wrap; gap: 7px; }
+.wordPill { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; overflow-wrap: anywhere; font-size: 13px; font-weight: 700; padding: 6px 9px; border-radius: 6px; }
+.wordPill svg { flex-shrink: 0; }
+.wordFound { border: 1px solid color-mix(in srgb, var(--word-color) 60%, var(--color-border)); background: color-mix(in srgb, var(--word-color) 14%, var(--color-surface)); color: var(--color-text); }
+.emptyProgress { color: var(--color-text-soft); font-size: 13px; }
+.puzzleDetails { border-top: 1px solid var(--color-border); margin-top: 20px; padding-top: 12px; color: var(--color-text-muted); font-size: 12px; }
+.puzzleDetails summary { cursor: pointer; padding: 6px 0; }
+.puzzleDetails code { display: inline-block; background: var(--color-chip); padding: 4px 6px; border-radius: 4px; color: var(--color-text); }
+.puzzleDetails p { overflow-wrap: anywhere; }
+.resetActions { display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--color-border); margin-top: 14px; padding-top: 14px; }
+.resetActions button { width: 100%; justify-content: flex-start; }
+.shuffleButton { color: var(--color-primary); }
+.completeBanner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 0; margin-bottom: 12px; border-block: 1px solid var(--found-color); color: var(--color-text); }
+.completeBanner > svg { color: var(--found-color); }
+.completeBanner > div { flex: 1; min-width: 180px; }
+.completeBanner p { margin: 5px 0 0; font-size: 14px; color: var(--color-text-muted); }
+.fullscreenShell { position: fixed; inset: 0; z-index: 100; overflow: auto; border-radius: 0; background: var(--color-surface); }
+.shell:fullscreen { overflow: auto; padding: 20px; }
 @media (max-width: 980px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .progressWordsPanel {
-    order: -1;
-  }
-
-  .compactLayout .progressWordsPanel {
-    order: 1;
-  }
+  .layout { grid-template-columns: 1fr; }
+  .progressWordsPanel { order: 1; padding-top: 8px; }
+  .resetActions button { width: auto; }
+  .gameHeader { flex-wrap: wrap; gap: 12px; }
 }
-
-@media (max-width: 720px) {
-  .shell {
-    --cell-size: clamp(12px, calc((100vw - 78px) / var(--grid-size)), 30px);
-    padding: 10px;
-  }
-
-  .gameHeader,
-  .controls,
-  .completeBanner {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .controls {
-    position: sticky;
-    top: 8px;
-    z-index: 2;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
-    box-shadow: var(--shadow-soft);
-    padding: 10px;
-    backdrop-filter: blur(12px);
-  }
-
-  .segmentedControl,
-  .zoomControls,
-  .resetActions {
-    justify-content: center;
-    min-width: 0;
-    width: 100%;
-  }
-
-  .segmentedControl button,
-  .resetActions button {
-    flex: 1;
-  }
-
-  .progressPanel {
-    width: 100%;
-  }
-
-  .zoomControls {
-    flex-wrap: wrap;
-  }
-
-  .boardViewport {
-    max-height: 62vh;
-    padding: 8px;
-  }
-
-  .compactBoardViewport {
-    --cell-size: min(13px, calc((100vw - 76px) / var(--grid-size)));
-    justify-content: center;
-    max-height: none;
-    padding: 4px;
-  }
-
-  .compactBoardViewport .cell {
-    font-size: clamp(8px, calc(var(--cell-size) * 0.5), 15px);
-  }
+@media (max-width: 600px) {
+  .shell { padding: 10px; }
+  .gameHeader { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .gameHeader h1 { font-size: 20px; }
+  .gameHeader p { font-size: 13px; }
+  .progressPanel { width: auto; min-width: 90px; }
+  .headerActions { grid-column: 1 / -1; }
+  .controls { gap: 6px; }
+  .controls button { min-height: 44px; padding: 0 8px; }
+  .segmentedControl { width: 100%; }
+  .segmentedControl button { flex: 1; }
+  .zoomControls { width: 100%; justify-content: center; gap: 6px; }
+  .boardViewport { padding: 6px; }
+  .resetActions button { min-height: 44px; flex: 1 1 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .successCell, .missCell { animation: none; }
+  .progressTrack div { transition: none; }
 }

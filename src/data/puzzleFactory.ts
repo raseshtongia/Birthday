@@ -98,6 +98,7 @@ export const createPuzzleFromFriend = (friend: FriendWordList): PuzzleConfig => 
     pageSubtitle: friend.pageSubtitle,
     friendName: friend.friendName,
     message: friend.message,
+    completionMessage: friend.completionMessage,
     size: friend.gridSize ?? recommendGridSize(words),
     seed: seedInput,
     allowedDirections: DIRECTIONS,

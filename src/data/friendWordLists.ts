@@ -75,5 +75,13 @@ export const friendWordLists: FriendWordList[] = [
     words: [
       'Moh', 'Frenemy', 'Gandhinagar', 'Climate', 'IBM', 'Coffee', 'Book', 'Jane Austen', 'Arundhati Roy ', 'Barcelona', 'IISC', 'Bengaluru', 'Alberto Costa', 'Scion habitat', 'Kolkata', 'Avishek Shaw', 'Van gough', 'Starry night', 'Lal bagh', 'We four', 'Pixxel', 'ACM sigkdd', 'Akshat Garden'
     ],
-  }
+  },
+  {
+    friendName: 'Viaan',
+    message: 'Can you find them all Viaan?',
+    gridSize: 15,
+    words: [
+      'Bengaluru','BhagatSingh','Prestige','Manali','Shreyans','Kiyawat','Mukesh','Dolly','Paris','France','Viaan','Akshayakalpa','Indore','Bhopal','Car Showroom'
+    ],
+  },
 ];
